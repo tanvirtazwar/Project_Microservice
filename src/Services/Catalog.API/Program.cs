@@ -1,4 +1,5 @@
 using Catalog.API.Models;
+using Catalog.API.Repository;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -10,6 +11,8 @@ builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 builder.Services.Configure<CatalogDatabaseSettings>(
     builder.Configuration.GetSection("CatalogDatabase"));
+
+builder.Services.AddSingleton<CatalogRepository>();
 
 var app = builder.Build();
 
