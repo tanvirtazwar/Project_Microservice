@@ -17,7 +17,7 @@ namespace Catalog.API.Repository
                 options.Value.CollectionName);
         }
 
-        public async Task<List<Product>> GetAsync() =>
+        public async Task<List<Product>> GetAllAsync() =>
             await _products.Find(_ => true).ToListAsync();
 
         public async Task<Product?> GetByIdAsync(string id) =>
