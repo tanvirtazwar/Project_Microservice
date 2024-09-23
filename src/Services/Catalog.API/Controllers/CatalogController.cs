@@ -1,6 +1,7 @@
 ﻿using Catalog.API.Models;
 using Catalog.API.Repository;
 using Microsoft.AspNetCore.Mvc;
+using MongoDB.Bson;
 using System.Net;
 
 namespace Catalog.API.Controllers
@@ -76,6 +77,7 @@ namespace Catalog.API.Controllers
         {
             try
             {
+                newProduct.Id = ObjectId.GenerateNewId().ToString();
                 await _catalogRepository.CreateAsync(newProduct);
 
                 return CreatedAtAction(nameof(GetById), new { id = newProduct.Id }, newProduct);
