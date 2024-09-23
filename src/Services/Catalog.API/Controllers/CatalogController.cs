@@ -20,78 +20,115 @@ namespace Catalog.API.Controllers
         [ProducesResponseType(typeof(IEnumerable<Product>), (int)HttpStatusCode.OK)]
         public async Task<IActionResult> GetAll()
         {
-            var products = await _catalogRepository.GetAllAsync();
+            try
+            {
+                var products = await _catalogRepository.GetAllAsync();
 
-            return Ok(products);
+                return Ok(products);
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(ex.Message);
+            }
         }
 
         [HttpGet]
         [ProducesResponseType(typeof(IEnumerable<Product>), (int)HttpStatusCode.OK)]
-        public async Task<IActionResult> GetByCategory(string category)
+        public async Task<IActionResult> GetByCategory(string? category)
         {
-            var products = await _catalogRepository.GetByCategoryAsync(category);
+            try
+            {
+                var products = await _catalogRepository.GetByCategoryAsync(category!);
 
-            return Ok(products);
+                return Ok(products);
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(ex.Message);
+            }
         }
 
         [HttpGet]
         [ProducesResponseType(typeof(Product), (int)HttpStatusCode.OK)]
-        public async Task<IActionResult> GetById (string id)
+        public async Task<IActionResult> GetById (string? id)
         {
-            var product = await _catalogRepository.GetByIdAsync(id);
-
-            if (product is null)
+            try
             {
-                return NotFound();
-            }
+                var product = await _catalogRepository.GetByIdAsync(id!);
 
-            return Ok(product);
+                if (product is null)
+                {
+                    return NotFound();
+                }
+
+                return Ok(product);
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(ex.Message);
+            }
         }
 
         [HttpPost]
         [ProducesResponseType(typeof(Product), (int)HttpStatusCode.Created)]
         public async Task<IActionResult> CreateProduct([FromBody] Product newProduct)
         {
-            await _catalogRepository.CreateAsync(newProduct);
+            try
+            {
+                await _catalogRepository.CreateAsync(newProduct);
 
-            return CreatedAtAction(nameof(GetById), new { id = newProduct.Id }, newProduct);
+                return CreatedAtAction(nameof(GetById), new { id = newProduct.Id }, newProduct);
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(ex.Message);
+            }
         }
 
         [HttpPut]
         [ProducesResponseType(typeof(Product), (int)HttpStatusCode.OK)]
         public async Task<IActionResult> UpdateProduct([FromBody] Product updatedProduct)
         {
-            if (string.IsNullOrEmpty(updatedProduct.Id))
+            try
             {
-                return BadRequest();
+                var book = await _catalogRepository.GetByIdAsync(updatedProduct.Id!);
+
+                if (book is null)
+                {
+                    return NotFound();
+                }
+
+                await _catalogRepository.UpdateAsync(updatedProduct.Id!, updatedProduct);
+
+                return Ok(updatedProduct);
             }
-
-            var book = await _catalogRepository.GetByIdAsync(updatedProduct.Id);
-
-            if (book is null)
+            catch (Exception ex)
             {
-                return NotFound();
+                return BadRequest(ex.Message);
             }
-
-            await _catalogRepository.UpdateAsync(updatedProduct.Id, updatedProduct);
-
-            return Ok(updatedProduct);
         }
 
         [HttpDelete]
         [ProducesResponseType((int)HttpStatusCode.OK)]
         public async Task<IActionResult> DeleteProduct(string id)
         {
-            var deletedProduct = await _catalogRepository.GetByIdAsync(id);
-
-            if (deletedProduct is null)
+            try
             {
-                return NotFound();
+                var deletedProduct = await _catalogRepository.GetByIdAsync(id);
+
+                if (deletedProduct is null)
+                {
+                    return NotFound();
+                }
+
+                await _catalogRepository.RemoveAsync(id);
+
+                return Ok($"Product with Id: {id} deleted successfully");
             }
-
-            await _catalogRepository.RemoveAsync(id);
-
-            return Ok($"Product with Id: {id} deleted successfully");
+            catch (Exception ex)
+            {
+                return BadRequest(ex.Message);
+            }
         }
     }
 }
