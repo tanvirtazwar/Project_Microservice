@@ -5,7 +5,9 @@ VisualStudioVersion = 17.11.35312.102
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Services", "Services", "{37513188-0755-4568-8FDA-EFC4B6E0FF39}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Catalog.API", "Services\Catalog.API\Catalog.API.csproj", "{A349CA7C-8EA5-4FBE-929A-B9BB2EF4105D}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Catalog.API", "Services\Catalog.API\Catalog.API.csproj", "{A349CA7C-8EA5-4FBE-929A-B9BB2EF4105D}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Basket.API", "Services\Basket.API\Basket.API.csproj", "{9E1246AF-CA15-46B4-AE17-7287524AB0B3}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -17,12 +19,17 @@ Global
 		{A349CA7C-8EA5-4FBE-929A-B9BB2EF4105D}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{A349CA7C-8EA5-4FBE-929A-B9BB2EF4105D}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{A349CA7C-8EA5-4FBE-929A-B9BB2EF4105D}.Release|Any CPU.Build.0 = Release|Any CPU
+		{9E1246AF-CA15-46B4-AE17-7287524AB0B3}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{9E1246AF-CA15-46B4-AE17-7287524AB0B3}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{9E1246AF-CA15-46B4-AE17-7287524AB0B3}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{9E1246AF-CA15-46B4-AE17-7287524AB0B3}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
 	EndGlobalSection
 	GlobalSection(NestedProjects) = preSolution
 		{A349CA7C-8EA5-4FBE-929A-B9BB2EF4105D} = {37513188-0755-4568-8FDA-EFC4B6E0FF39}
+		{9E1246AF-CA15-46B4-AE17-7287524AB0B3} = {37513188-0755-4568-8FDA-EFC4B6E0FF39}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {D3111CAA-F493-46E5-8D8C-79BC48A86572}
