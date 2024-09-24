@@ -1,5 +1,5 @@
 ﻿using Catalog.API.Models;
-using Catalog.API.Repository;
+using Catalog.API.Repositories.Interfaces;
 using Microsoft.AspNetCore.Mvc;
 using MongoDB.Bson;
 using System.Net;
@@ -10,11 +10,11 @@ namespace Catalog.API.Controllers
     [ApiController]
     public class CatalogController : ControllerBase
     {
-        private readonly CatalogRepository _catalogRepository;
+        private readonly ICatalogRepository catalogRepository;
 
-        public CatalogController(CatalogRepository catalogRepository)
+        public CatalogController(ICatalogRepository catalogRepository)
         {
-            _catalogRepository = catalogRepository;
+            this.catalogRepository = catalogRepository;
         }
 
         [HttpGet]
@@ -24,7 +24,7 @@ namespace Catalog.API.Controllers
         {
             try
             {
-                var products = await _catalogRepository.GetAllAsync();
+                var products = await catalogRepository.GetAllAsync();
 
                 return Ok(products);
             }
@@ -40,7 +40,7 @@ namespace Catalog.API.Controllers
         {
             try
             {
-                var products = await _catalogRepository.GetByCategoryAsync(category!);
+                var products = await catalogRepository.GetByCategoryAsync(category!);
 
                 return Ok(products);
             }
@@ -56,7 +56,7 @@ namespace Catalog.API.Controllers
         {
             try
             {
-                var product = await _catalogRepository.GetByIdAsync(id!);
+                var product = await catalogRepository.GetByIdAsync(id!);
 
                 if (product is null)
                 {
@@ -78,7 +78,7 @@ namespace Catalog.API.Controllers
             try
             {
                 newProduct.Id = ObjectId.GenerateNewId().ToString();
-                await _catalogRepository.CreateAsync(newProduct);
+                await catalogRepository.CreateAsync(newProduct);
 
                 return CreatedAtAction(nameof(GetById), new { id = newProduct.Id }, newProduct);
             }
@@ -94,14 +94,14 @@ namespace Catalog.API.Controllers
         {
             try
             {
-                var book = await _catalogRepository.GetByIdAsync(updatedProduct.Id!);
+                var book = await catalogRepository.GetByIdAsync(updatedProduct.Id!);
 
                 if (book is null)
                 {
                     return NotFound();
                 }
 
-                await _catalogRepository.UpdateAsync(updatedProduct.Id!, updatedProduct);
+                await catalogRepository.UpdateAsync(updatedProduct.Id!, updatedProduct);
 
                 return Ok(updatedProduct);
             }
@@ -117,14 +117,14 @@ namespace Catalog.API.Controllers
         {
             try
             {
-                var deletedProduct = await _catalogRepository.GetByIdAsync(id);
+                var deletedProduct = await catalogRepository.GetByIdAsync(id);
 
                 if (deletedProduct is null)
                 {
                     return NotFound();
                 }
 
-                await _catalogRepository.RemoveAsync(id);
+                await catalogRepository.RemoveAsync(id);
 
                 return Ok($"Product with Id: {id} deleted successfully");
             }
